@@ -1,0 +1,545 @@
+---
+title: "MLDS: Introduction to R"
+author: "Wendy Geronimo & Jasmine Xu"
+date: '2024-04-09'
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+<img src = "https://gabymahrholz.github.io/Intro_to_R/images/rstudio.png" alt="r_logo" width="600" height="200" />
+
+
+# Section 1: An introductory guide to R
+
+Welcome! Today, we will explore the basics of R programming and dive into data visualization using ggplot2, one of the most popular packages for creating graphics in R.
+
+------------------------------------------------------------------------
+
+### Brief Overview of R:
+- R is widely used for data analysis and visualization in various fields, including academia, industry, and research.
+- Its applications range from simple data manipulation to complex statistical modeling and machine learning.
+
+### Installing R and RStudio:
+1. R can be installed from the Comprehensive R Archive Network (CRAN) website.
+https://cran.r-project.org/
+
+2. Once R is installed, you can download RStudio from the Posit website. RStudio is an integrated development environment (IDE) for R that provides a user-friendly interface for coding and visualization. (https://www.rstudio.com/products/rstudio/download/)
+
+------------------------------------------------------------------------
+
+### When you open RStudio, you will see 4 panels:
+![](https://www.simonqueenborough.info/R/basic/figure/rstudio-labels.png)
+
+------------------------------------------------------------------------
+
+# Section 2: R Markdown Overview & Basic Syntax
+
+### R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. (go ahead and try it now if you want: you can always re-knit it later after making changes!)
+
+-------------------------------------------------------------------------
+
+### Some ways to run code:
+    • have cursor anywhere on the line
+    • highlight what you want to run 
+    
+### Some Shortcuts Windows/Mac (replace ctrl with cmd)
+    • ctrl + enter; run selected line(s)
+    • ctrl + shift + enter; run current code chunk
+    • ctrl + alt + N; run next code chunk
+    • ctrl + l; clear console
+    • esc; to escape the current line in the console
+    
+### Help
+    • help()
+    • ?____ 
+     try on console: help(base) 
+                     ?base
+    
+  
+### Basic Syntax
+
+<div style="text-align:center">
+  <img src="https://miro.medium.com/v2/resize:fit:1400/1*FFrJc9glYHVarlhk7KLxaA.jpeg" alt="r_meme" width="400" height="300" />
+</div>
+
+The **assignment operator** in R is **<-**, the less than sign and hyphen without a space in-between, creates a variable in the environment.
+```{r}
+# assignment operator (<-)
+# saving 7 as an object obj
+obj <- 7
+print(obj)
+
+# can use single or double quotes ("/')
+single <- 'Hello World!'
+double <- "Hello World!"
+
+# overall, the output is in double quotes
+print(single)
+print(double)
+
+# not on environment because there's nothing assigned to them
+print(7)
+print('Hello World')
+
+```
+
+### Operators
+<div style="text-align:center">
+  <img src="https://i0.wp.com/makemeanalyst.com/wp-content/uploads/2017/05/Arithmetic-Operator-1.png?resize=505%2C345.jpeg" alt="r_meme" />
+</div>
+
+
+
+#### examples:
+    • 5 * 7 + 9   # 44
+    • 7 + 9 * 5   # 52, does multiplication first
+    • 5 * (7 + 9) # 80, best to use parenthesis!
+
+
+#### **additional calculations**:
+    • mean()  # mean
+    • var()   # variance
+    • sd()    # standard deviation
+    • prod()  # product
+    • log()   # logarithms
+    • sqrt()  # square root
+    • x^     # exponential
+
+### Data Types
+  
+In R, we encounter various data types that include the following:
+
+• **Character**: Used for text data, enclosed within "quotation marks".
+    ex. "Hello", "40 Acres"
+    
+• **Numeric**: Represents numbers, integers and floats. 
+    ex. 12, 3.14, -7
+    _(If you say numeric data is a character, you won't be able to do any math with it.)_
+    
+• **Logical**: Consists of boolean values TRUE and FALSE.
+    ex. TRUE, FALSE
+    
+• **Vectors**: A sequence of elements of the same data type.
+
+   _c() concatenation- input data you want to put together inside brackets, each separated by a comma_
+  
+  - _**Numeric vector**_: c(1, 2, 3, 4, 5)
+  
+  - _**Character vector**_: c("apple", "banana", "orange")
+  
+  - _**Logical vector**_ (Booleans): c(TRUE, FALSE, TRUE)
+
+```{r}
+# examples of creating and manipulating vectors
+v1 <- 5:15 # : stands for to in a series of numbers
+v2 <- c(4,6,8,10,8,6,1)
+
+# accessing elements in vectors
+v1[4]
+v2[2:5]
+
+# use ifelse for vectorized if/else operations
+y <- c(1, 5, 10, 15, 20)
+result <- ifelse(y > 10, "Greater than 10", "Less than or equal to 10")
+print(result)
+
+```
+
+## Important note! 
+Just because something is a *number* doesn't mean R thinks it's numeric!
+```{r}
+
+a <- 15
+b <- "6"
+
+# a * b
+# There would be an error: "non-numeric argument to binary operator"
+# because b is set as a string
+
+# Convert character to numeric using as.numeric() function
+a * as.numeric(b) # now it works! :)
+
+# check stucture: b changes from "chr" to "num"
+str(b)
+str(as.numeric(b))
+
+# to fix b to be a number permanently
+b <- as.numeric(b)
+b
+
+```
+
+## Variable Names
+Choosing descriptive and consistent variable names is crucial for writing clear and maintainable code. Here are some guidelines:
+
+1. **Descriptive Names**: Clearly describe the variable's purpose or content
+2. **Avoid Abbreviations**: Minimize abbreviation to maintain clarity
+3. **Consistent Convention**: Stick to naming conventions like camelCase
+4. **Start with a Letter**: Variable names must start with a letter
+5. **Avoid Reserved Keywords**: Don't use reserved keywords as variable names
+
+Examples:
+  • **camelCase**: `myVariableName`
+  • **snake_case**: `my_variable_name`
+  • **PascalCase**: `MyVariableName`
+
+These examples demonstrate clear and meaningful variable names, enhancing readability and collaboration!
+
+
+**DO NOT CREATE VARIABLE NAMES THAT FALL INTO THE RESERVED WORDS LIKE THOSE SHOWN BELOW!**
+Those are built-in functions, meaning they're used for specific purposes within the language's syntax and functionality.
+
+![](https://media.geeksforgeeks.org/wp-content/uploads/20200415013313/r9.png)
+-------------------------------------------------------------------------
+
+# Section 3. Loading Data and Exploring Dataset
+
+### Loading Packages/Libraries
+The library tidyverse is a collection of packages that allows us to manipulate and visualize data.
+
+```{r}
+library(tidyverse) 
+```
+
+### Dataset
+The `iris' dataset is a classic dataset in machine learning and data science. The dataset consists of 150 samples of iris flowers, each belonging to one of three species: setosa, versicolor, or virginica. It includes 4 features sepal length/width and petal length/width, all measured in centimeters. 
+
+Look up the documentation for this data frame with a description of the variables by typing `?iris` **in the console** pane.
+
+![](https://media.licdn.com/dms/image/D4D12AQF5vivFTAdZjQ/article-cover_image-shrink_600_2000/0/1700911428185?e=2147483647&v=beta&t=RaJufpE5-ZMvIMZFVTy4dNtvnKHVgmThtTORx-_qu6Q)
+
+
+```{r}
+# note: for datasets that are not already in R use read_csv (comma separated value)
+# df <- read_csv("dataset_path/name_of_dataset.csv")
+
+# load the iris dataset, already in R!
+data(iris)
+
+View(iris) # view dataset
+head(iris) # see top 6 rows, can edit by head(iris, 5), top 5 rows
+tail(iris) # see bottom 6 rows, can also be edited!
+nrow(iris) # total rows in dataset
+ncol(iris) # total columns in dataset
+colnames(iris) # column names
+
+```
+### Data Wrangling
+Data wrangling is the process of cleaning, transforming, and organizing raw data to make it usable for analysis and visualization!
+
+Loading the dplyr library will allow us to do that. 
+```{r}
+# Uncomment if you do not have dplyr installed
+# install.packages("dplyr") 
+library(dplyr)
+```
+
+#### Core Functions
+1. filter() choose rows/observations
+2. arrange() sort rows/observations
+3. select() choose columns/variables
+4. mutate() create new columns/variables
+5. summarize() calculate summaries
+6. group_by() designate groups of data
+
+#### What is a pipe? 
+The pipe **%>%** lets you easily connect functions together, so you can perform a series of actions on your data step by step, making your code cleaner and easier to follow.
+
+
+### Filter
+Use `filter()` to choose rows/observations verifying some conditions. Use conditional statements such as `<`, `>`, `>=`, `<=`, `==`, `is.na()`, `&`, `|`, `!`, `%in%`, ...
+```{r}
+# Filter a categorical variable
+iris %>%
+  filter(Species == "setosa")
+```
+
+```{r}
+# Filter with multiple criteria
+iris %>% 
+  filter(Species == "versicolor" & Petal.Width > 1)
+```
+
+```{r}
+# Filter a numeric variable to a given range
+iris %>% 
+  filter(between(Sepal.Length, 5.5, 6.5)) # between(variable, min, max)
+```
+
+```{r}
+# Filter rows by indexes using slice()
+iris %>% 
+  slice(1:10)
+```
+
+```{r}
+# Filter rows which contain a certain pattern/string
+iris %>% 
+  filter(grepl("setosa", Species))
+
+```
+
+### Arrange
+Use `arrange()` to sort rows/observations on some conditions. Default is ascending (from least to greatest or alphabetically for categories) but to sort in the other direction use `desc()`.
+```{r}
+# Sort by Sepal.Width, least-to-greatest 
+iris %>% 
+  arrange(Sepal.Width)
+```
+
+```{r}
+# Sort by Species alphabetically, Sepal.Length and Petal.Length chronologically
+iris %>% 
+  arrange(Species, Sepal.Length, Petal.Length)
+```
+
+### Select
+```{r}
+# Select to keep only some variables
+iris %>% 
+  select(Species, Sepal.Length, Petal.Length)
+```
+
+```{r}
+# Select to keep columns using indexes
+iris %>% 
+  select(1, 3, 5)
+```
+
+```{r}
+# Drop variables using "-"
+iris %>%
+  select(-Species, -Sepal.Width)
+```
+
+```{r}
+# Move Petal.Width to the front
+# Use everything() to keep everything else in the same order
+iris %>% 
+  select(Petal.Width, everything())
+```
+
+```{r}
+# Select variables/columns by partial name
+iris %>% 
+  select(starts_with("Sepal"))
+```
+
+```{r}
+# Select and rename...
+iris %>% 
+  select(FlowerType = Species, 
+         "Sepal_Width" = Sepal.Width, 
+         "Petal_Width" = Petal.Width)
+```
+
+```{r}
+# or just use rename()
+iris %>% 
+  rename(FlowerType = Species, 
+         "Sepal Width" = Sepal.Width, 
+         "Petal Width" = Petal.Width)
+```
+
+```{r}
+# Compare select() and pull()
+petal_lengths_df <- iris %>% select(Petal.Length)
+petal_lengths_vec <- iris %>% pull(Petal.Length)
+class(petal_lengths_df) 
+class(petal_lengths_vec)
+```
+
+### Mutate
+
+Use `mutate()` to create new columns/variables:
+
+```{r}
+# Find the ratio of Sepal.Length to Sepal.Width
+iris %>% 
+  mutate(Sepal_Ratio = Sepal.Length / Sepal.Width)
+```
+
+```{r}
+# Find the square of Petal.Length
+iris %>% 
+  mutate(Petal_Length_Square = Petal.Length^2)
+```
+
+### Summarize
+
+Use `summarize()` to calculate summary statistics on columns/variables. Some useful summary functions: `mean()`, `sd()`, `median()`, `IQR()`, `min()`, `max()`, `n()`, `n_distinct()`, `first()`, `last()`, `nth()`, ...
+
+```{r}
+# Find the mean volume
+iris %>% 
+  summarize(mean_width = mean(Sepal.Width))
+```
+
+```{r}
+# Add more summaries:
+# the mean Sepal.Width, number of rows, and number of distinct Species 
+iris %>% 
+  summarize(mean_width = mean(Sepal.Width), 
+            n_rows = n(), 
+            n_species = n_distinct(Species))
+```
+
+### Group by
+
+This is one very important function! It enables us to create subsets and apply a function to all these subsets. For example, find summaries per Species:
+
+```{r}
+# Find summaries by Species 
+iris %>% 
+  group_by(Species) %>% # subsets per Species
+  summarize(mean_width = mean(Sepal.Width), 
+            sd_width = sd(Sepal.Width), 
+            n = n())
+```
+
+```{r}
+# Stop grouping with ungroup()
+iris %>% 
+  group_by(Species) %>% # subsets per Species
+  summarize(mean_width = mean(Sepal.Width), 
+            n = n()) %>% # count how many observations per subgroup
+  ungroup() %>% # ungroup to consider all Species
+  summarize(n_distinct(n))
+```
+
+------------------------------------------------------------------------
+
+# Section 4. Data Visualization with ggplot2
+
+### What is ggplot2?
+ggplot2, where "gg" stands for grammar of graphics, is a data visualization package in R. It provides a flexible and intuitive framework for creating graphics. 
+
+Some of many advantages of ggplot2:
+
+  • Automatic legends, colors, etc.: defaults look good
+  
+  • Combine multiple variables/datasets on a single graph: easy overlay and facet multiple variables or datasets
+  
+  • Lots of development/extension packages
+
+
+
+We'll cover:
+
+  • Building plots using layers
+  
+  • Customizing aesthetics and themes
+  
+  • Creating various types of plots: histograms, scatter plots, and grouped plots
+
+### Visualizing Data
+Let's create some visualizations using ggplot2 with the iris dataset!
+
+### Plotting in base R
+Fast and convenient, but not as presentable. 
+
+```{r}
+# An example of histograms generated using base R
+hist(iris$Sepal.Width, 
+     main = "Histogram of Iris Sepal Widths", 
+     xlab = "Sepal Width (cm)", 
+     breaks = 13)
+```
+
+### installing ggplot 2
+
+```{r}
+# Uncomment if you do not have ggplot installed
+# install.packages("ggplot2") 
+library(ggplot2)
+```
+
+### Histogram
+Generally, to create a ggplot, you first supply the `ggplot()` function, in which you specify the dataset you will be using, as well as an aesthetic mapping using `aes()`. Then, you simply add layers onto the ggplot (using `+`).
+
+```{r iris}
+ggplot(iris, aes(x = Sepal.Width)) + # specifying the `iris` dataset and the aesthetic mapping
+  geom_histogram(bins = 13) + # adding a histogram layer
+  labs(title = "Histogram of Iris Sepal Widths", # adding a layer with title and axis labels
+       x = "Sepal Width (cm)")
+```
+
+We can further customize our ggplots!
+
+```{r}
+ggplot(iris) + 
+  geom_histogram(aes(x = Sepal.Length), 
+                 bins = 10, 
+                 fill = "darkolivegreen") + 
+  labs(title = "Histogram of Sepal Lengths", 
+       x = "Sepal Length", 
+       y = "Frequency")
+```
+
+You can save visuals by clicking 'export' under plots. 
+
+### Scatter Plot
+```{r}
+ggplot(iris) + 
+  geom_point(aes(x = Sepal.Length, y = Sepal.Width), 
+                 fill = "darkolivegreen") + 
+  labs(title = "Scatterplot of Sepal Lengths vs 
+       Sepal Widths", 
+       x = "Sepal Width", 
+       y = "Sepal Length")
+```
+
+### Grouped Plots
+To group your histogram based on a variable, you simply specify the `fill` argument in the aesthetic mapping of `geom_histogram`.
+
+```{r}
+ggplot(iris) + 
+  geom_histogram(aes(x = Sepal.Length, fill = Species), 
+                 bins = 10, 
+                 position = "identity") + 
+  scale_fill_manual(values = c("darkgreen", 
+                               "forestgreen", 
+                               "darkolivegreen")) + 
+  labs(title = "Histogram of Sepal Lengths", 
+       x = "Sepal Length", 
+       y = "Frequency")
+```
+
+A similar change is required to group your scatterplots. 
+
+```{r}
+ggplot(iris) + 
+  geom_point(aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  scale_color_manual(values = c("darkgreen", 
+                               "forestgreen", 
+                               "darkolivegreen")) + 
+  labs(title = "Sepal Lengths vs Sepal Widths", 
+       x = "Sepal Width", 
+       y = "Sepal Length")
+```
+
+-------------------------------------------------------------------------
+
+## Thank you for learning R with us! :D
+
+### Some resources to look into!
+
+[Kaggle- Intro to R](https://www.kaggle.com/code/hamelg/intro-to-r-index/notebook)
+
+[ggplot2 Documentation](https://ggplot2.tidyverse.org/reference/)
+
+
+Just some companies that are using R:
+<div style="text-align:center">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQPmQAeVRtHNIvLSOp5zoHtjxNrE4hS4FRuJs-GuUppw&s.jpeg" alt="comps" width="400" height="300" />
+</div>
